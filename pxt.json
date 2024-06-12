@@ -2,7 +2,8 @@
     "name": "UNO!",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "BetterArrays": "github:sargedev/betterarrays#v1.1.0"
     },
     "files": [
         "main.blocks",

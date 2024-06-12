@@ -74,3 +74,43 @@ class Card {
         return sprites.create(picture);
     }
 }
+
+function addNumberCards(color: CardColor): Card[] {
+    let result: Card[] = [new Card(CardType.Number, color, 0)];
+    for (let i = 0; i < 18; i++) {
+        result.push(new Card(CardType.Number, color, i+1));
+    }
+    return result;
+}
+
+function addSpecialCards(color: CardColor): Card[] {
+    let result = arrays.concatMany([
+        arrays.repeat(new Card(CardType.Skip, color), 2),
+        arrays.repeat(new Card(CardType.Reverse, color), 2),
+        arrays.repeat(new Card(CardType.PlusTwo, color), 2)
+    ])
+    return result;
+}
+
+function addWildCards(): Card[] {
+    let result = arrays.concatMany([
+        arrays.repeat(new Card(CardType.Color), 4),
+        arrays.repeat(new Card(CardType.PlusFour), 4)
+    ])
+    return result;
+}
+
+function addAllColors(method: (color: CardColor) => Card[]): Card[] {
+    return arrays.concatMany([
+        method(CardColor.Red),
+        method(CardColor.Blue),
+        method(CardColor.Yellow),
+        method(CardColor.Green),
+    ])
+}
+
+let deck: Card[] = arrays.concatMany([
+    addAllColors((color) => addNumberCards(color)),
+    addAllColors((color) => addSpecialCards(color)),
+    addWildCards()
+])
