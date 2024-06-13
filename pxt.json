@@ -3,7 +3,7 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "BetterArrays": "github:sargedev/betterarrays#v1.1.0"
+        "BetterArrays": "github:sargedev/betterarrays#v1.2.0"
     },
     "files": [
         "main.blocks",

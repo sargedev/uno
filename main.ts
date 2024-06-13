@@ -121,5 +121,21 @@ let deck: Card[] = arrays.concatMany([
     addAllColors((color) => addSpecialCards(color)),
     addWildCards()
 ])
+arrays.shuffle(deck);
 
-console.log(deck);
+/*
+let top = 0;
+let left = 0;
+let sprite;
+deck.forEach((value)=> {
+    sprite = value.render();
+    sprite.left = left;
+    sprite.top = top;
+
+    left += 16;
+    if (left + 16 > 160) {
+        left = 0;
+        top += 15;
+    }    
+})
+*/
