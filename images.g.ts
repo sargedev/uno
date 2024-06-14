@@ -513,6 +513,40 @@ ede888888888888888fef
 .132222222222222221..
 ..1111111111111111...
 `;
+            case "image16":
+            case "cardBack":return img`
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+eeeeeeeeeeeeeeeeeeeee
+`;
         }
         return null;
     })

@@ -123,19 +123,50 @@ let deck: Card[] = arrays.concatMany([
 ])
 arrays.shuffle(deck);
 
-/*
-let top = 0;
-let left = 0;
-let sprite;
-deck.forEach((value)=> {
-    sprite = value.render();
-    sprite.left = left;
-    sprite.top = top;
+class Player {
+    cards: Card[];
 
-    left += 16;
-    if (left + 16 > 160) {
-        left = 0;
-        top += 15;
-    }    
-})
-*/
+    constructor(cards: Card[]) {
+        this.cards = cards;
+    }
+}
+
+let players: Player[] = [
+    new Player(arrays.toSliced(deck, 0, 7)),
+    new Player(arrays.toSliced(deck, 7, 14)),
+    new Player(arrays.toSliced(deck, 14, 21)),
+    new Player(arrays.toSliced(deck, 21, 28))
+]
+
+arrays.splice(deck, 0, 28);
+
+let mainPlayer = players[0];
+let cards = mainPlayer.cards;
+
+
+let left = 20;
+let offset = 13;
+
+scene.setBackgroundColor(2);
+
+let card: Sprite;
+for (let i = 0; i < cards.length; i++) {
+    card = cards[i].render();
+    card.left = left + i * offset;
+}
+
+/**
+ * How many players (2-4)
+ * Stacking
+ * Multicolor stacking
+ * Stacking at once
+ * +2 stacking
+ * +4 stacking
+ * +4 on +2
+ * +2 on +4
+ * +2 on +4 (with color)
+ * Play when drawing
+ * Skip dealing animation
+ * Play until 1 winner
+ * Draw 1 or unlimited
+ */
