@@ -3,7 +3,8 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "BetterArrays": "github:sargedev/betterarrays#v1.2.0"
+        "BetterArrays": "github:sargedev/betterarrays#v1.2.0",
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1"
     },
     "files": [
         "main.blocks",

@@ -149,11 +149,22 @@ let offset = 13;
 
 scene.setBackgroundColor(2);
 
+/*
 let card: Sprite;
 for (let i = 0; i < cards.length; i++) {
     card = cards[i].render();
     card.left = left + i * offset;
 }
+*/
+
+let mainMenu = miniMenu.createMenuFromArray([
+    miniMenu.createMenuItem("Play"),
+    miniMenu.createMenuItem("No. of players: "),
+    miniMenu.createMenuItem("Stacking: ON"),
+    miniMenu.createMenuItem("Multicolor stacking: ON"),
+    miniMenu.createMenuItem("+2 on +2: ON"),
+    miniMenu.createMenuItem("+4 on +2: ON")
+])
 
 /**
  * How many players (2-4)
