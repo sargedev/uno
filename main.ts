@@ -131,21 +131,7 @@ class Player {
     }
 }
 
-let players: Player[] = [
-    new Player(arrays.toSliced(deck, 0, 7)),
-    new Player(arrays.toSliced(deck, 7, 14)),
-    new Player(arrays.toSliced(deck, 14, 21)),
-    new Player(arrays.toSliced(deck, 21, 28))
-]
-
 arrays.splice(deck, 0, 28);
-
-let mainPlayer = players[0];
-let cards = mainPlayer.cards;
-
-
-let left = 20;
-let offset = 13;
 
 scene.setBackgroundColor(2);
 
@@ -157,14 +143,68 @@ for (let i = 0; i < cards.length; i++) {
 }
 */
 
-let mainMenu = miniMenu.createMenuFromArray([
-    miniMenu.createMenuItem("Play"),
-    miniMenu.createMenuItem("No. of players: "),
-    miniMenu.createMenuItem("Stacking: ON"),
-    miniMenu.createMenuItem("Multicolor stacking: ON"),
-    miniMenu.createMenuItem("+2 on +2: ON"),
-    miniMenu.createMenuItem("+4 on +2: ON")
-])
+let gameRules: {[key: string]: boolean} =  {
+    stacking: true,
+    multicolorStacking: true,
+    twoOnTwo: true,
+    fourOnTwo: true,
+    twoOnFour: false,
+    twoOnFourColor: false,
+    playWhenDrawing: false,
+    skipAnimation: false,
+    onlyOneWinner: false,
+    unlimitedDrawing: false
+}
+
+let mainMenu: miniMenu.MenuSprite;
+let playerNum = 4;
+
+function format(value: boolean): string {
+    return value ? "ON" : "OFF";
+}
+
+function renderMainMenu(index?: number): void {
+    if (mainMenu) mainMenu.destroy();
+
+    mainMenu = miniMenu.createMenuFromArray([
+        miniMenu.createMenuItem(`Start Game`),
+        miniMenu.createMenuItem(`No. of players: ${playerNum}`),
+        miniMenu.createMenuItem(`Stacking: ${format(gameRules.stacking)}`),
+        miniMenu.createMenuItem(`Multicolor stacking: ${format(gameRules.multicolorStacking)}`),
+        miniMenu.createMenuItem(`+2 on +2: ${format(gameRules.twoOnTwo)}`),
+        miniMenu.createMenuItem(`+4 on +2: ${format(gameRules.fourOnTwo)}`),
+        miniMenu.createMenuItem(`+2 on +4: ${format(gameRules.twoOnFour)}`),
+        miniMenu.createMenuItem(`+2 on +4 (colored): ${format(gameRules.twoOnFourColor)}`),
+        miniMenu.createMenuItem(`Play when drawing: ${format(gameRules.playWhenDrawing)}`),
+        miniMenu.createMenuItem(`Skip dealing animation: ${format(gameRules.skipAnimation)}`),
+        miniMenu.createMenuItem(`Only 1 winner: ${format(gameRules.onlyOneWinner)}`),
+        miniMenu.createMenuItem(`Unlimited drawing: ${format(gameRules.unlimitedDrawing)}`),
+    ])
+
+    if (index) {
+        for (let i = 0; i < index; i++) mainMenu.moveSelection(miniMenu.MoveDirection.Down);
+    }
+
+    mainMenu.onButtonPressed(controller.A, handleMainMenu);
+
+    mainMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Width, 140);
+    mainMenu.setMenuStyleProperty(miniMenu.MenuStyleProperty.Height, 60);
+    mainMenu.setPosition(80, 80);
+}
+
+function handleMainMenu(selection: string, selectedIndex: number): void {
+    if (selectedIndex === 0) return; // start game
+    else if (selectedIndex === 1) {
+        playerNum += 1;
+        playerNum = (playerNum - 2) % 3 + 2;
+    } else {
+        let rule = Object.keys(gameRules)[selectedIndex - 2];
+        gameRules[rule] = !gameRules[rule];
+    }
+    renderMainMenu(selectedIndex);
+}
+
+renderMainMenu();
 
 /**
  * How many players (2-4)
