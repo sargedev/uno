@@ -135,6 +135,8 @@ class Player {
     }
 }
 
+const rotations = [180, 270, 90, 0];
+
 scene.setBackgroundColor(2);
 
 let gameRules: {[key: string]: boolean} =  {
@@ -221,7 +223,7 @@ function createDeck() {
     deckCard = sprites.create(assets.image`cardBack`);
 }
 
-function dealCards() {
+function createPlayers() {
     players = [
         new Player(arrays.toSliced(deck, 0, 7), CardPos.Bottom, true),
         new Player(arrays.toSliced(deck, 7, 14), CardPos.Top)
@@ -235,11 +237,24 @@ function dealCards() {
         }
     }
     arrays.splice(deck, 0, playerNum * 7);
+}
 
+function cardBack() {
+    return sprites.create(assets.image`cardBack`);
+}
+
+function spawnCard(card: Card, player: Player) {
+    let sprite = player.self ? card.render() : cardBack();
+    sprite.setImage(sprite.image.rotated(player.position));
+    sprite.setPosition(deckCard.x, deckCard.y);
+}
+
+function dealCards() {
+    createPlayers();
     let zipped = arrays.zipMany(players.map((value) => value.cards));
     for (let i = 0; i < 7; i++) {
         for (let j = 0; j < playerNum; j++) {
-
+            spawnCard(zipped[i][j], players[j]);
         }
     }
 }
