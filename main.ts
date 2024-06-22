@@ -51,7 +51,8 @@ class Card {
         this.value = value;
     }
 
-    render(): Sprite {
+    render(facingUp: boolean): Sprite {
+        if (!facingUp) return sprites.create(assets.image`cardBack`);
         let picture = getCardImage(this.type, this.value);
         
         if (this.color === CardColor.Blue) {
@@ -136,6 +137,8 @@ class Player {
 }
 
 const rotations = [180, 270, 90, 0];
+const posX = [80, 20, 140, 80];
+const posY = [20, 60, 60, 100];
 
 scene.setBackgroundColor(2);
 
@@ -239,14 +242,11 @@ function createPlayers() {
     arrays.splice(deck, 0, playerNum * 7);
 }
 
-function cardBack() {
-    return sprites.create(assets.image`cardBack`);
-}
-
 function spawnCard(card: Card, player: Player) {
-    let sprite = player.self ? card.render() : cardBack();
+    let sprite = card.render(player.self);
     sprite.setImage(sprite.image.rotated(player.position));
     sprite.setPosition(deckCard.x, deckCard.y);
+    animation.runMovementAnimation(sprite, `L ${posX[player.position]} ${posY[player.position]}`);
 }
 
 function dealCards() {
@@ -255,6 +255,7 @@ function dealCards() {
     for (let i = 0; i < 7; i++) {
         for (let j = 0; j < playerNum; j++) {
             spawnCard(zipped[i][j], players[j]);
+            pause(500);
         }
     }
 }
