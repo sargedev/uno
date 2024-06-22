@@ -51,7 +51,7 @@ class Card {
         this.value = value;
     }
 
-    render(facingUp: boolean): Sprite {
+    render(facingUp: boolean=true): Sprite {
         if (!facingUp) return sprites.create(assets.image`cardBack`);
         let picture = getCardImage(this.type, this.value);
         
@@ -137,8 +137,8 @@ class Player {
 }
 
 const rotations = [180, 270, 90, 0];
-const posX = [80, 20, 140, 80];
-const posY = [20, 60, 60, 100];
+const posX = [80, 10, 150, 80];
+const posY = [10, 60, 60, 100];
 
 scene.setBackgroundColor(2);
 
@@ -210,9 +210,14 @@ renderMainMenu();
 
 let players: Player[];
 let deckCard: Sprite;
+let playingCard: Card;
+
 function startGame() {
     createDeck();
     dealCards();
+    playingCard = deck[0];
+    placeCard(playingCard);
+    deck.removeAt(0);
 }
 
 let deck: Card[];
@@ -224,6 +229,7 @@ function createDeck() {
     ])
     arrays.shuffle(deck);
     deckCard = sprites.create(assets.image`cardBack`);
+    deckCard.setPosition(110, 60)
 }
 
 function createPlayers() {
@@ -246,7 +252,7 @@ function spawnCard(card: Card, player: Player) {
     let sprite = card.render(player.self);
     sprite.setImage(scaling.rot(sprite.image, rotations[player.position]));
     sprite.setPosition(deckCard.x, deckCard.y);
-    animation.runMovementAnimation(sprite, `L ${posX[player.position]} ${posY[player.position]}`);
+    animation.runMovementAnimation(sprite, `L ${posX[player.position]} ${posY[player.position]}`, 500);
 }
 
 function dealCards() {
@@ -258,6 +264,12 @@ function dealCards() {
             pause(500);
         }
     }
+}
+
+function placeCard(card: Card) {
+    let sprite = card.render();
+    sprite.setPosition(deckCard.x, deckCard.y);
+    animation.runMovementAnimation(sprite, "L 80 60", 500);
 }
 
 /**

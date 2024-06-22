@@ -515,7 +515,7 @@ ede888888888888888fef
 `;
             case "image16":
             case "cardBack":return img`
-fffffffffffffffffffff
+.fffffffffffffffffff.
 fffffffffffffffffffff
 fffffffffffffffffffff
 fffffffffffffffffffff
@@ -545,7 +545,7 @@ eeeeeeeeeeeeeeeeeeeee
 eeeeeeeeeeeeeeeeeeeee
 eeeeeeeeeeeeeeeeeeeee
 eeeeeeeeeeeeeeeeeeeee
-eeeeeeeeeeeeeeeeeeeee
+.eeeeeeeeeeeeeeeeeee.
 `;
         }
         return null;
