@@ -192,14 +192,14 @@ function handleMainMenu(selection: string, selectedIndex: number): void {
 
 renderMainMenu();
 
+let players: Player[];
 let deckCard: Sprite;
-
 function startGame() {
     createDeck();
+    dealCards();
 }
 
 let deck: Card[];
-
 function createDeck() {
     deck = arrays.concatMany([
         addAllColors((color) => addNumberCards(color)),
@@ -208,6 +208,23 @@ function createDeck() {
     ])
     arrays.shuffle(deck);
     deckCard = sprites.create(assets.image`cardBack`);
+}
+
+function dealCards() {
+    players = [
+        new Player(arrays.toSliced(deck, 0, 7)),
+        new Player(arrays.toSliced(deck, 7, 14))
+    ]
+    if (playerNum > 2) players.push(new Player(arrays.toSliced(deck, 14, 21)));
+    if (playerNum > 3) players.push(new Player(arrays.toSliced(deck, 21, 28)));
+    arrays.splice(deck, 0, playerNum * 7);
+
+    let zipped = arrays.zipMany(players.map((value) => value.cards));
+    for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < playerNum; j++) {
+
+        }
+    }
 }
 
 /**
