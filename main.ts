@@ -244,7 +244,7 @@ function createPlayers() {
 
 function spawnCard(card: Card, player: Player) {
     let sprite = card.render(player.self);
-    sprite.setImage(sprite.image.rotated(player.position));
+    sprite.setImage(scaling.rot(sprite.image, rotations[player.position]));
     sprite.setPosition(deckCard.x, deckCard.y);
     animation.runMovementAnimation(sprite, `L ${posX[player.position]} ${posY[player.position]}`);
 }

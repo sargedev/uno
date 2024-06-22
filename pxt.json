@@ -4,7 +4,8 @@
     "dependencies": {
         "device": "*",
         "BetterArrays": "github:sargedev/betterarrays#v1.2.0",
-        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1"
+        "arcade-mini-menu": "github:riknoll/arcade-mini-menu#v0.0.1",
+        "pxt-scaling": "github:jwunderl/pxt-scaling#v0.1.0"
     },
     "files": [
         "main.blocks",
