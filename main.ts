@@ -116,13 +116,6 @@ function addAllColors(method: (color: CardColor) => Card[]): Card[] {
     ])
 }
 
-let deck: Card[] = arrays.concatMany([
-    addAllColors((color) => addNumberCards(color)),
-    addAllColors((color) => addSpecialCards(color)),
-    addWildCards()
-])
-arrays.shuffle(deck);
-
 class Player {
     cards: Card[];
 
@@ -131,17 +124,7 @@ class Player {
     }
 }
 
-arrays.splice(deck, 0, 28);
-
 scene.setBackgroundColor(2);
-
-/*
-let card: Sprite;
-for (let i = 0; i < cards.length; i++) {
-    card = cards[i].render();
-    card.left = left + i * offset;
-}
-*/
 
 let gameRules: {[key: string]: boolean} =  {
     stacking: true,
@@ -178,7 +161,7 @@ function renderMainMenu(index?: number): void {
         miniMenu.createMenuItem(`Play when drawing: ${format(gameRules.playWhenDrawing)}`),
         miniMenu.createMenuItem(`Skip dealing animation: ${format(gameRules.skipAnimation)}`),
         miniMenu.createMenuItem(`Only 1 winner: ${format(gameRules.onlyOneWinner)}`),
-        miniMenu.createMenuItem(`Unlimited drawing: ${format(gameRules.unlimitedDrawing)}`),
+        miniMenu.createMenuItem(`Unlimited drawing: ${format(gameRules.unlimitedDrawing)}`)
     ])
 
     if (index) {
@@ -193,8 +176,11 @@ function renderMainMenu(index?: number): void {
 }
 
 function handleMainMenu(selection: string, selectedIndex: number): void {
-    if (selectedIndex === 0) return; // start game
-    else if (selectedIndex === 1) {
+    if (selectedIndex === 0) {
+        mainMenu.close();
+        startGame();
+        return;
+    } else if (selectedIndex === 1) {
         playerNum += 1;
         playerNum = (playerNum - 2) % 3 + 2;
     } else {
@@ -205,6 +191,24 @@ function handleMainMenu(selection: string, selectedIndex: number): void {
 }
 
 renderMainMenu();
+
+let deckCard: Sprite;
+
+function startGame() {
+    createDeck();
+}
+
+let deck: Card[];
+
+function createDeck() {
+    deck = arrays.concatMany([
+        addAllColors((color) => addNumberCards(color)),
+        addAllColors((color) => addSpecialCards(color)),
+        addWildCards()
+    ])
+    arrays.shuffle(deck);
+    deckCard = sprites.create(assets.image`cardBack`);
+}
 
 /**
  * How many players (2-4)
