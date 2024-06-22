@@ -116,11 +116,22 @@ function addAllColors(method: (color: CardColor) => Card[]): Card[] {
     ])
 }
 
+enum CardPos {
+    Top,
+    Left,
+    Right,
+    Bottom
+}
+
 class Player {
     cards: Card[];
+    position: CardPos;
+    self: boolean;
 
-    constructor(cards: Card[]) {
+    constructor(cards: Card[], position?: CardPos, self?: boolean) {
         this.cards = cards;
+        this.position = position;
+        this.self = self;
     }
 }
 
@@ -212,11 +223,17 @@ function createDeck() {
 
 function dealCards() {
     players = [
-        new Player(arrays.toSliced(deck, 0, 7)),
-        new Player(arrays.toSliced(deck, 7, 14))
+        new Player(arrays.toSliced(deck, 0, 7), CardPos.Bottom, true),
+        new Player(arrays.toSliced(deck, 7, 14), CardPos.Top)
     ]
-    if (playerNum > 2) players.push(new Player(arrays.toSliced(deck, 14, 21)));
-    if (playerNum > 3) players.push(new Player(arrays.toSliced(deck, 21, 28)));
+
+    if (playerNum >= 3) {
+        players.push(new Player(arrays.toSliced(deck, 14, 21), CardPos.Top));
+        players[1].position = CardPos.Right;
+        if (playerNum >= 4) {
+            players.push(new Player(arrays.toSliced(deck, 21, 28), CardPos.Left));
+        }
+    }
     arrays.splice(deck, 0, playerNum * 7);
 
     let zipped = arrays.zipMany(players.map((value) => value.cards));
