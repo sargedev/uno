@@ -44,6 +44,7 @@ class Card {
     type: CardType;
     color?: CardColor;
     value?: number;
+    sprite: Sprite;
 
     constructor(type: CardType, color?: CardColor, value?: number) {
         this.type = type;
@@ -52,7 +53,10 @@ class Card {
     }
 
     render(facingUp: boolean=true): Sprite {
-        if (!facingUp) return sprites.create(assets.image`cardBack`);
+        if (!facingUp) {
+            this.sprite = sprites.create(assets.image`cardBack`);
+            return this.sprite;
+        }
         let picture = getCardImage(this.type, this.value);
         
         if (this.color === CardColor.Blue) {
@@ -72,7 +76,8 @@ class Card {
             picture.replace(4, 5);
         }
 
-        return sprites.create(picture);
+        this.sprite = sprites.create(picture);
+        return this.sprite;
     }
 
     toString(): string {
@@ -128,11 +133,13 @@ class Player {
     cards: Card[];
     position: CardPos;
     self: boolean;
+    dealt: number;
 
     constructor(cards: Card[], position?: CardPos, self?: boolean) {
         this.cards = cards;
         this.position = position;
         this.self = self;
+        this.dealt = 0;
     }
 }
 
@@ -142,7 +149,7 @@ const posY = [10, 60, 60, 100];
 
 const hMax = 120;
 const vMax = 80;
-const spacing = 15;
+const spacing = 21;
 
 scene.setBackgroundColor(2);
 
@@ -258,14 +265,34 @@ function recalculatePositions(card: Card, player: Player) {
         max = vMax;
     }
 
-    let space = Math.constrain(spacing * player.cards.length + 21, 0, max);
+    let useSpacing = spacing;
+    let space = Math.constrain(spacing * player.dealt + 21, 0, max);
+    if (space === max) useSpacing = (space - 21) / player.dealt;
+
+    let positions = [];
+    let start = 80 - space / 2 + 10;
+    for (let i = 0; i < player.dealt + 1; i++) {
+        positions.push(start + useSpacing * i);
+    }
+    return positions;
 }
 
 function spawnCard(card: Card, player: Player) {
     let sprite = card.render(player.self);
     sprite.setImage(scaling.rot(sprite.image, rotations[player.position]));
     sprite.setPosition(deckCard.x, deckCard.y);
-    animation.runMovementAnimation(sprite, `L ${posX[player.position]} ${posY[player.position]}`, 500);
+    
+    let positions = recalculatePositions(card, player);
+    let path: string;
+    for (let i = 0; i < positions.length; i++) {
+        path = `L ${positions[i]} ${posY[player.position]}`;
+        if (player.position === CardPos.Left || player.position === CardPos.Right) {
+            path = `L ${posX[player.position]} ${positions[i]}`;
+        }
+        animation.runMovementAnimation(player.cards[i].sprite, path, 500);
+    }
+
+    player.dealt += 1;
 }
 
 function dealCards() {
