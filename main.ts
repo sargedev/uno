@@ -140,6 +140,10 @@ const rotations = [180, 270, 90, 0];
 const posX = [80, 10, 150, 80];
 const posY = [10, 60, 60, 100];
 
+const hMax = 120;
+const vMax = 80;
+const spacing = 15;
+
 scene.setBackgroundColor(2);
 
 let gameRules: {[key: string]: boolean} =  {
@@ -246,6 +250,15 @@ function createPlayers() {
         }
     }
     arrays.splice(deck, 0, playerNum * 7);
+}
+
+function recalculatePositions(card: Card, player: Player) {
+    let max = hMax;
+    if (player.position === CardPos.Left || player.position === CardPos.Right) {
+        max = vMax;
+    }
+
+    let space = Math.constrain(spacing * player.cards.length + 21, 0, max);
 }
 
 function spawnCard(card: Card, player: Player) {
