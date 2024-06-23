@@ -261,8 +261,10 @@ function createPlayers() {
 
 function recalculatePositions(card: Card, player: Player) {
     let max = hMax;
+    let center = 80;
     if (player.position === CardPos.Left || player.position === CardPos.Right) {
         max = vMax;
+        center = 60;
     }
 
     let useSpacing = spacing;
@@ -270,7 +272,7 @@ function recalculatePositions(card: Card, player: Player) {
     if (space === max) useSpacing = (space - 21) / player.dealt;
 
     let positions = [];
-    let start = 80 - space / 2 + 10;
+    let start = center - space / 2 + 10;
     for (let i = 0; i < player.dealt + 1; i++) {
         positions.push(start + useSpacing * i);
     }
